@@ -2,8 +2,7 @@ using UnityEngine;
 using System.IO;
 public static class JsonSaveManager<T>
 {
-    static string SavePath(string path)
-        =>  $"C:/Users/kanayasho/Music_Game/Assets/Json/{path}.json";
+    static string SavePath(string path) => $"{Application.dataPath}/{path}.json";      
     
     public static void Save(T data, string path)
     {
@@ -17,7 +16,7 @@ public static class JsonSaveManager<T>
 
     public static T Load(string path)
     {
-        if (File.Exists(SavePath(path)))//�f�[�^�����݂���ꍇ�͕Ԃ�
+        if (File.Exists(SavePath(path)))
         {
             using (StreamReader sr = new StreamReader(SavePath(path)))
             {
@@ -26,7 +25,6 @@ public static class JsonSaveManager<T>
             }
         }
 
-        //���݂��Ȃ��ꍇ��default��ԋp
         return default;
     }
 }

@@ -11,11 +11,11 @@ public class LightSetting : MonoBehaviour
     private float _speed = 3;
     
     [SerializeField] 
-    private int _num = 0;
+    private int _num;
     
     private Renderer _rend;
     
-    private float _alfa = 0;
+    private float _alfa;
     void Start()
     {
         _rend = GetComponent<Renderer>();

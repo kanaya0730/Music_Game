@@ -8,14 +8,15 @@ using UniRx.Triggers;
 using NoteEditor.Utility;
 public class NotesMove : MonoBehaviour,IRemeved
 {
-    public void Start()
+    private void Start()
     {
-        this.UpdateAsObservable()
+        
+        this.FixedUpdateAsObservable()
             .Subscribe(_ => Move())
             .AddTo(this);
     }
 
-    void Move()
+    private void Move()
     {
         if (GameManager.Instance.IsPlayed)
         {
@@ -26,6 +27,5 @@ public class NotesMove : MonoBehaviour,IRemeved
     public void Delete(bool value)
     {
         gameObject.SetActive(value);
-        Debug.Log("消去出来た");
     }
 }

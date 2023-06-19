@@ -33,25 +33,30 @@ public class NotesManager : MonoBehaviour
 
     private int _noteNum;
 
-    public List<int> _laneNum = new List<int>();
-    public List<int> _noteType = new List<int>();
-    public List<float> _notesTime = new List<float>();
-    public List<GameObject> _notesObj = new List<GameObject>();
+    [SerializeField]
+    private List<int> _laneNum = new();
+    
+    [SerializeField]
+    private List<int> _noteType = new();
+    
+    [SerializeField]
+    private List<float> _notesTime = new();
+    
+    [SerializeField]
+    private List<GameObject> _notesObj = new();
     
     [SerializeField]
     private GameObject _noteObj;
-
-    [SerializeField] 
-    private GameManager _gameManager;
-
+    
     [SerializeField] 
     private List<TextAsset> _songName = new();
     
     private const int MINUTE = 60;
-    void OnEnable()
+    
+    void Start()
     {
         _noteNum = 0;
-        Load(_songName[0]);
+        Load(_songName[GameManager.Instance.SongID]);
     }
 
     private void Load(TextAsset songName)
@@ -60,19 +65,21 @@ public class NotesManager : MonoBehaviour
         Data inputJson = JsonUtility.FromJson<Data>(inputString);
         
         _noteNum = inputJson.notes.Length;
-        _gameManager.SetMaxScore(_noteNum, 5);
-
+        
         for (int i = 0; i < inputJson.notes.Length; i++)
         {
+            //ノーツの生成位置を計算
             float interval = MINUTE / (inputJson.BPM * (float)inputJson.notes[i].LPB);
             float beatSec = interval * inputJson.notes[i].LPB;
             float time = (beatSec * inputJson.notes[i].num / inputJson.notes[i].LPB) + inputJson.offset * 0.01f;
+            
+            //ノーツの情報を追加
             _notesTime.Add(time);
             _laneNum.Add(inputJson.notes[i].block);
             _noteType.Add(inputJson.notes[i].type);
 
-            float z = _notesTime[i] * _gameManager.NotesSpeed;
-            _notesObj.Add(Instantiate(_noteObj, new Vector3(inputJson.notes[i].block * 0.5f, 0.02f, z), Quaternion.identity));
+            float z = _notesTime[i] * GameManager.Instance.NotesSpeed;
+            _notesObj.Add(Instantiate(_noteObj, new Vector3(inputJson.notes[i].block * 0.8f, 0.02f, z), Quaternion.identity));
         }
     }
 }

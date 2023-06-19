@@ -14,85 +14,86 @@ public class Judge : MonoBehaviour
     [SerializeField] 
     private NotesManager _notesManager;//スクリプト「_notesManager」を入れる変数
 
-    [SerializeField] 
-    private GameManager _gameManager;
-    
-    [SerializeField] 
-    TextMeshProUGUI comboText;
     [SerializeField]
-    TextMeshProUGUI scoreText;
-    
-    [SerializeField]
-    AudioClip _hitSound;
+    private GameScoreModel _gameScoreModel;
 
-    AudioSource _audioSource;
+    [SerializeField] 
+    private EffectManager _effectManager;
+
+    [SerializeField] 
+    private MusicManager _musicManager;
+
     void Start()
     {
-        _audioSource = GetComponent<AudioSource>();
-        this.UpdateAsObservable()
+        this.FixedUpdateAsObservable()
             .Subscribe(_ => MissCheck())
             .AddTo(this);
     }
 
     public void MissCheck()
     {
-        if (_gameManager.IsPlayed)
+        if (GameManager.Instance.IsPlayed)
         {
-            if (Time.time > _notesManager._notesTime[0] + 0.2f + _gameManager.StartTime)//本来ノーツをたたくべき時間から0.2秒たっても入力がなかった場合
+            if (_notesManager.NotesTime != null)
             {
-                Message(3);
-                DeleteData(0);
-                Debug.Log("Miss");
-                _gameManager.AddMiss();
-            }   
+                if (Time.time > _notesManager.NotesTime[0] + 0.12f + GameManager.Instance.StartTime)//本来ノーツをたたくべき時間から0.18秒たっても入力がなかった場合
+                {
+                    Message(3);
+                    DeleteData(0);
+                    Debug.Log("Miss");
+                    GameManager.Instance.AddMiss();
+                    _gameScoreModel.Miss(40);
+                }    
+            }
         }
     }
     public void Judging(int num)
-    { 
-        if (_gameManager.IsPlayed)
+    {
+        if (GameManager.Instance.IsPlayed)
         {
-            if (_notesManager._laneNum[0] == num)//押されたボタンはレーンの番号とあっているか？
+            if (_notesManager.LaneNum[0] == num)//押されたボタンはレーンの番号とあっているか？
             {
-                Judgement(GetABS(Time.time - (_notesManager._notesTime[0] + _gameManager.StartTime)), 0);
+                Judgement(GetABS(Time.time - (_notesManager.NotesTime[0] + GameManager.Instance.StartTime)), 0, num);
             }
             else
             {
-                if (_notesManager._laneNum[1] == num)
+                if (_notesManager.LaneNum[1] == num)
                 {
-                    Judgement(GetABS(Time.time - (_notesManager._notesTime[1] + _gameManager.StartTime)), 1);
+                    Judgement(GetABS(Time.time - (_notesManager.NotesTime[1] + GameManager.Instance.StartTime)), 1, num);
                 }
             }
         }
     }
-    void Judgement(float timeLag,int numOffset)
+    void Judgement(float timeLag,int numOffset, int num)
     {
-        _audioSource.PlayOneShot(_hitSound);
-        if (timeLag <= 0.05)//本来ノーツをたたくべき時間と実際にノーツをたたいた時間の誤差が0.1秒以下だったら
+        if (timeLag <= 0.07)//本来ノーツをたたくべき時間と実際にノーツをたたいた時間の誤差が0.1秒以下だったら
         {
-            Debug.Log("Perfect");
+            _musicManager.PlaySound();
+            _effectManager.PlayTapEffect(num);
             Message(0);
-            _gameManager.AddPerfect();
-            _gameManager.AddRatioScore(5);
+            GameManager.Instance.AddPerfect();
+            _gameScoreModel.AddScore(1000);
             DeleteData(numOffset);
         }
         else
         {
-            if (timeLag <= 0.08)//本来ノーツをたたくべき時間と実際にノーツをたたいた時間の誤差が0.15秒以下だったら
+            if (timeLag <= 0.09)//本来ノーツをたたくべき時間と実際にノーツをたたいた時間の誤差が0.15秒以下だったら
             {
-                Debug.Log("Great");
+                _musicManager.PlaySound();
+                _effectManager.PlayTapEffect(num);
                 Message(1);
-                _gameManager.AddGreat();
-                _gameManager.AddRatioScore(3);
+                GameManager.Instance.AddGreat();
+                _gameScoreModel.AddScore(500);
                 DeleteData(numOffset);
             }
             else
             {
-                if (timeLag <= 0.10)//本来ノーツをたたくべき時間と実際にノーツをたたいた時間の誤差が0.2秒以下だったら
+                if (timeLag <= 0.12)//本来ノーツをたたくべき時間と実際にノーツをたたいた時間の誤差が0.2秒以下だったら
                 {
-                    Debug.Log("Bad");
+                    _musicManager.PlaySound();
+                    _effectManager.PlayTapEffect(num);
                     Message(2);
-                    _gameManager.AddBad();
-                    _gameManager.AddRatioScore(1);
+                    GameManager.Instance.AddBad();
                     DeleteData(numOffset);
                 }
             }
@@ -111,16 +112,22 @@ public class Judge : MonoBehaviour
     }
     void DeleteData(int numOffset)//すでにたたいたノーツを削除する関数
     {
-        _notesManager._notesTime.RemoveAt(numOffset);
-        _notesManager._laneNum.RemoveAt(numOffset);
-        _notesManager._noteType.RemoveAt(numOffset);
-        _gameManager.MaxSetResultScore();
-        comboText.text = _gameManager.Combo.ToString();//new!!
-        scoreText.text = _gameManager.Score.ToString();//new!!
+        _notesManager.NotesTime.RemoveAt(numOffset);
+        _notesManager.LaneNum.RemoveAt(numOffset);
+        _notesManager.NoteType.RemoveAt(numOffset);
+        
+        if (_notesManager.NotesObj[numOffset].TryGetComponent(out IRemeved removed))
+        {
+            removed.Delete(false);
+        }
+        
+        _notesManager.NotesObj.RemoveAt(numOffset);
     }
 
-    void Message(int judge)//判定を表示する
+    /// <summary>判定を表示する</summary>
+    /// <param name="judge"></param>
+    void Message(int judge)
     {
-        Instantiate(MessageObj[judge],new Vector3(_notesManager._laneNum[0] * 0.5f, 0.0f, 0.9f),Quaternion.Euler(45,0,0));
+        Instantiate(MessageObj[judge],new Vector3(_notesManager.LaneNum[0] * 0.8f, 0.0f, 1.2f),Quaternion.Euler(45,0,0));
     }
 }

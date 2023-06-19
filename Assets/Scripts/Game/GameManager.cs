@@ -2,20 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using NoteEditor.Utility;
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 
 public class GameManager : SingletonMonoBehaviour<GameManager>
 {
-    public float MaxScore => _maxScore;
-    public float RatioScore => _ratioScore;
-    
     public int SongID => _songID;
     public float NotesSpeed => _noteSpeed;
 
     public bool IsPlayed => _isPlayed;
     public float StartTime => _startTime;
 
-    public int Combo => _combo;
     public int Score => _score;
     
     public int Perfect => _perfect;
@@ -23,9 +21,6 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     public int Bad => _bad;
     public int Miss => _miss;
     
-    private float _maxScore;//new!!
-    private float _ratioScore;//new!!
-
     private int _songID;
     
     [SerializeField]
@@ -37,12 +32,9 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     [SerializeField]
     private float _startTime;
 
-    [SerializeField]
-    private int _combo;
-    
-    [SerializeField]
+    [SerializeField] 
     private int _score;
-
+    
     [SerializeField]
     private int _perfect;
     
@@ -54,61 +46,53 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     
     [SerializeField]
     private int _miss;
+    
+    [SerializeField] 
+    private GameScoreModel _gameScoreModel;
 
-    public void AddScore(int score)
+    private void OnEnable()
     {
-        _score += score;
+        _songID = PlayerPrefs.GetInt("SONG_ID");
+    }
+
+    private void Start()
+    {
+        _score = 0;
+        
+        this.UpdateAsObservable()
+            .Subscribe(_ => SetScore())
+            .AddTo(this);   
+    }
+    
+
+    private void SetScore()
+    {
+        _score = _gameScoreModel.Score.Value;
     }
 
     public void AddPerfect()
     {
         _perfect++;
-        AddCombo();
+        _gameScoreModel.AddCombo();
     }
     
     public void AddGreat()
     {
         _great++;
-        AddCombo();
+        _gameScoreModel.AddCombo();
     }
     
     public void AddBad()
     {
         _bad++;
-        DiscontinuedCombo();
     }
     
     public void AddMiss()
     {
         _miss++;
-        DiscontinuedCombo();
+        _gameScoreModel.DiscontinuedCombo();
     }
-
-    private void AddCombo()
-    {
-        _combo++;
-    }
-
-    private void DiscontinuedCombo()
-    {
-        _combo = 0;
-    }
-
-    public void AddRatioScore(int num)
-    {
-        _ratioScore += num;
-    }
-
-    public void MaxSetResultScore()
-    {
-        _score = (int)Math.Round(1000000 * Math.Floor(_ratioScore / _maxScore * 1000000) / 1000000);
-    }
-
-    public void SetMaxScore(int noteNum , int num)
-    {
-        _maxScore = noteNum * num;
-    }
-
+    
     public void SetPlayed(bool value)
     {
         _isPlayed = value;
@@ -117,5 +101,19 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     public void SetStartTime()
     {
         _startTime = Time.time;
+    }
+
+    public void SaveScore()
+    {
+        PlayerPrefs.SetInt("SCORE", _score);
+        
+        PlayerPrefs.SetInt("PERFECT", _perfect);
+        PlayerPrefs.SetInt("GREAT", _great);
+        PlayerPrefs.SetInt("BAD", _bad);
+        PlayerPrefs.SetInt("MISS", _miss);
+
+        PlayerPrefs.SetInt("SONG_ID", _songID);
+        PlayerPrefs.Save();
+        
     }
 }
