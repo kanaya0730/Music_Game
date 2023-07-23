@@ -872,7 +872,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 235638720}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.08}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -916,7 +916,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cdd244b5265c7f4bb0b66e4bd915af5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _noteSpeed: 12
+  _noteSpeed: 11
   _isPlayed: 0
   _startTime: 0
   _score: 0
@@ -924,7 +924,7 @@ MonoBehaviour:
   _great: 0
   _bad: 0
   _miss: 0
-  _gameScoreModel: {fileID: 1591005785}
+  _gameScorePresenter: {fileID: 650274910}
 --- !u!4 &289088920
 Transform:
   m_ObjectHideFlags: 0
@@ -1761,7 +1761,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c18703c0cfab140a87c10790e58ad1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameScoreModel: {fileID: 1591005785}
   _gameScoreView: {fileID: 1866427987}
 --- !u!4 &650274911
 Transform:
@@ -1775,7 +1774,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1591005786}
   - {fileID: 1866427988}
   m_Father: {fileID: 0}
   m_RootOrder: 12
@@ -2347,7 +2345,7 @@ Camera:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.11320752, g: 0.11320752, b: 0.11320752, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -3991,7 +3989,7 @@ MonoBehaviour:
   - {fileID: 6095283233133585778, guid: 6afc5bbbd2d04534ba62e643adda3f09, type: 3}
   - {fileID: 1453266040138497593, guid: 5198969404eaeda47961a2c493e21870, type: 3}
   _notesManager: {fileID: 184113199}
-  _gameScoreModel: {fileID: 1591005785}
+  _gameScorePresenter: {fileID: 650274910}
   _effectManager: {fileID: 235638721}
   _musicManager: {fileID: 362606192}
 --- !u!4 &1549113270
@@ -4092,50 +4090,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1567439711}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1591005784
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1591005786}
-  - component: {fileID: 1591005785}
-  m_Layer: 0
-  m_Name: GameScoreModel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1591005785
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1591005784}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c38a13579cf5d84eb13f0e840bb8bba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1591005786
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1591005784}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 650274911}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1715614029
 GameObject:
   m_ObjectHideFlags: 0
@@ -4279,7 +4233,6 @@ MonoBehaviour:
   - {fileID: 32900000, guid: f8ef4957e6bda094285d9ae7c767c833, type: 3}
   - {fileID: 32900000, guid: 539742c952bc67240ae789d2f6595d86, type: 3}
   - {fileID: 32900000, guid: d45c7e1387b9401469ad9730966f4052, type: 3}
-  _screen: {fileID: 963194225}
 --- !u!4 &1782982042
 Transform:
   m_ObjectHideFlags: 0
@@ -4701,7 +4654,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 650274911}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1923046952
 GameObject:

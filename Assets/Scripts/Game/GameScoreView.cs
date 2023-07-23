@@ -5,7 +5,6 @@ using DG.Tweening;
 
 public class GameScoreView : MonoBehaviour
 {
-
     [SerializeField] 
     private Slider _hpSlider;
 
@@ -44,7 +43,4 @@ public class GameScoreView : MonoBehaviour
     {
         _comboText.text = value.ToString();
     }
-    
-    
-    
 }

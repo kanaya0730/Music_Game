@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 public class MusicManager : MonoBehaviour
 {
-    AudioSource _audioSource;
+    private AudioSource _audioSource;
     
     [SerializeField]
     private List<AudioClip> _music = new();
@@ -33,7 +33,7 @@ public class MusicManager : MonoBehaviour
     {
         _time = _setTime;
 
-        _audioSource = GetComponent<AudioSource>();   
+        _audioSource ??= GetComponent<AudioSource>();   
         
         GameManager.Instance.SetPlayed(false);
         

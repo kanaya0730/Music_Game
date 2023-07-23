@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Video;
 using DG.Tweening;
+using Template.Constant;
 using UnityEngine.SceneManagement;
 
 public class VideoManager : MonoBehaviour
@@ -14,13 +15,10 @@ public class VideoManager : MonoBehaviour
     
     [SerializeField]
     private List<VideoClip> _videoClip = new();
-    
-    [SerializeField]
-    private GameObject _screen;
-    
+
     void Start()
     {
-        _videoPlayer = _screen.AddComponent<VideoPlayer>();
+        _videoPlayer = Camera.main.gameObject.AddComponent<VideoPlayer>();
         
         _videoPlayer.playOnAwake = false;
         _videoPlayer.isLooping = false;
@@ -43,7 +41,8 @@ public class VideoManager : MonoBehaviour
     
     public void UnPauseVideo()
     {
-        _videoPlayer.Play();
+        if(_videoPlayer.isPaused)
+            _videoPlayer.Play();
     }
     
     private async void LoopPointReached(VideoPlayer vp)
@@ -52,9 +51,9 @@ public class VideoManager : MonoBehaviour
         Debug.Log("曲が終わった");
         GameManager.Instance.SaveScore();
         //クリア演出
-        await UniTask.Delay(TimeSpan.FromSeconds(5)); //n秒間待つ
+        await UniTask.Delay(TimeSpan.FromSeconds(5f)); //n秒間待つ
         Debug.Log("シーン切り替え");
-        SceneChangeEffect.Instance.LoadScene("ResultScene");
+        SceneChangeEffect.Instance.LoadScene(SceneName.RESULTSCENE);
     }
     
 }

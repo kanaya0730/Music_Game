@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
+
+public class NotesManager : MonoBehaviour
+{
 [Serializable]
-public class Data
+public struct Data
 {
     public string name;
     public int maxBlock;
@@ -14,7 +17,7 @@ public class Data
 }
 
 [Serializable]
-public class Notes
+public struct Notes
 {
     public int type;
     public int num;
@@ -22,10 +25,7 @@ public class Notes
     public int LPB;
 }
 
-public class NotesManager : MonoBehaviour
-{
     public int NoteNum => _noteNum;
-    
     public List<int> LaneNum => _laneNum;
     public List<int> NoteType => _noteType;
     public List<float> NotesTime => _notesTime;
@@ -79,7 +79,11 @@ public class NotesManager : MonoBehaviour
             _noteType.Add(inputJson.notes[i].type);
 
             float z = _notesTime[i] * GameManager.Instance.NotesSpeed;
-            _notesObj.Add(Instantiate(_noteObj, new Vector3(inputJson.notes[i].block * 0.8f, 0.02f, z), Quaternion.identity));
+            
+            var obj = Instantiate(_noteObj);
+            obj.transform.position = new Vector3(inputJson.notes[i].block * 0.8f, 0.02f, z);
+            
+            _notesObj.Add(obj);
         }
     }
 }

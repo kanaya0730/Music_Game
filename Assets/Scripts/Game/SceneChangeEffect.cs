@@ -25,36 +25,35 @@ public class SceneChangeEffect : SingletonMonoBehaviour<SceneChangeEffect>
     
     public void Start()
     {
-        _backGround = Instantiate (_backGround, transform.position, Quaternion.identity);
-        _backGround.transform.parent = _canvasCenter;
+        _backGround = Instantiate(_backGround);
+        _backGround.transform.position = transform.position;
+        _backGround.transform.SetParent(_canvasCenter);
 
-        
-        _effect = Instantiate (_effect, transform.position, Quaternion.identity);
-        _effect.transform.parent = _backGround.transform;
+
+        _effect = Instantiate(_effect);
+        _effect.transform.position = transform.position;
+        _effect.transform.SetParent(_backGround.transform);
 
         DontDestroyOnLoad(this.gameObject);
         _canvasCenter.gameObject.SetActive(false);
     }
 
-    private async void ZoomIn()
+    private async UniTask ZoomIn()
     {
         _canvasCenter.gameObject.SetActive(true);
-        _effect.gameObject.transform.DOScale(new Vector3(10,10,10), _zoomTime);
-        await UniTask.Delay(TimeSpan.FromSeconds(_zoomTime));
+        await _effect.transform.DOScale(new Vector3(10,10,10), _zoomTime);
         ZoomOut();
     }
 
     private async void ZoomOut()
     {
-        _effect.gameObject.transform.DOScale(new Vector3(0,0,0), _zoomTime);
-        await UniTask.Delay(TimeSpan.FromSeconds(_zoomTime));
+        await _effect.transform.DOScale(new Vector3(0,0,0), _zoomTime);
         _canvasCenter.gameObject.SetActive(false);
     }
     
     public async void LoadScene(string name)
     {
-        ZoomIn();
-        await UniTask.Delay(TimeSpan.FromSeconds(_zoomTime));
+        await ZoomIn();
         SceneManager.LoadScene(name);
     }
 }

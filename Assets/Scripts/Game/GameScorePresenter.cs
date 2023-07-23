@@ -5,33 +5,23 @@ using UniRx;
 
 public class GameScorePresenter : MonoBehaviour
 {
+    public GameScoreModel GameScoreModel { get; private set; } = new ();
+
     [SerializeField] 
-    private GameScoreModel _gameScoreModel;
-    
-    [SerializeField]
     private GameScoreView _gameScoreView;
 
     private void Start()
     {
-        _gameScoreModel.Hp
-            .Subscribe(x =>
-            {
-                _gameScoreView.SetHpValue(x);
-            })
+        GameScoreModel.Hp
+            .Subscribe(x => _gameScoreView.SetHpValue(x))
             .AddTo(this);
 
-        _gameScoreModel.Score
-            .Subscribe(x =>
-            {
-                _gameScoreView.SetScoreValue(x);
-            })
+        GameScoreModel.Score
+            .Subscribe(x => _gameScoreView.SetScoreValue(x))
             .AddTo(this);
 
-        _gameScoreModel.Combo
-            .Subscribe(x =>
-            {
-                _gameScoreView.SetComboValue(x);
-            })
+        GameScoreModel.Combo
+            .Subscribe(x => _gameScoreView.SetComboValue(x))
             .AddTo(this);
     }
 }

@@ -48,7 +48,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     private int _miss;
     
     [SerializeField] 
-    private GameScoreModel _gameScoreModel;
+    private GameScorePresenter _gameScorePresenter;
 
     private void OnEnable()
     {
@@ -67,19 +67,19 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
 
     private void SetScore()
     {
-        _score = _gameScoreModel.Score.Value;
+        _score = _gameScorePresenter.GameScoreModel.Score.Value;
     }
 
     public void AddPerfect()
     {
         _perfect++;
-        _gameScoreModel.AddCombo();
+        _gameScorePresenter.GameScoreModel.AddCombo();
     }
     
     public void AddGreat()
     {
         _great++;
-        _gameScoreModel.AddCombo();
+        _gameScorePresenter.GameScoreModel.AddCombo();
     }
     
     public void AddBad()
@@ -90,7 +90,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     public void AddMiss()
     {
         _miss++;
-        _gameScoreModel.DiscontinuedCombo();
+        _gameScorePresenter.GameScoreModel.DiscontinuedCombo();
     }
     
     public void SetPlayed(bool value)

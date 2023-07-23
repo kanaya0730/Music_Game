@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 
-public class GameScoreModel : MonoBehaviour
+public class GameScoreModel
 {
     public float MaxHp => _maxHp;
 
@@ -19,11 +19,6 @@ public class GameScoreModel : MonoBehaviour
     
     public IReadOnlyReactiveProperty<int> Combo => _combo;
     private readonly IntReactiveProperty _combo = new(0);
-
-    private void Start()
-    {
-        DontDestroyOnLoad(gameObject);
-    }
 
     public void Miss(float damage)
     {

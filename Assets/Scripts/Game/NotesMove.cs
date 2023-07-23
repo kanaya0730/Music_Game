@@ -6,7 +6,7 @@ using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 using NoteEditor.Utility;
-public class NotesMove : MonoBehaviour,IRemeved
+public class NotesMove : MonoBehaviour,IRemoved
 {
     private void Start()
     {
