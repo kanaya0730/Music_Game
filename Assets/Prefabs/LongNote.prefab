@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 8872761071642309009}
   - component: {fileID: 6321207134131511968}
   m_Layer: 0
-  m_Name: Note
+  m_Name: LongNote
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,7 +59,7 @@ Transform:
   m_GameObject: {fileID: 6964821180590988644}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.02, z: 0}
-  m_LocalScale: {x: 1, y: 0.02, z: 0.25}
+  m_LocalScale: {x: 1, y: 0.02, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7847313477517648813}
@@ -94,7 +94,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ab6458a8c16a76b479a98d210f37653b, type: 2}
+  - {fileID: 2100000, guid: f5183f7956d227b45986ac2ac57d4591, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

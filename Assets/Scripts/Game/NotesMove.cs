@@ -5,12 +5,11 @@ using NoteEditor.Utility;
 using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
-using NoteEditor.Utility;
+
 public class NotesMove : MonoBehaviour,IRemoved
 {
     private void Start()
-    {
-        
+    {   
         this.FixedUpdateAsObservable()
             .Subscribe(_ => Move())
             .AddTo(this);
@@ -19,13 +18,8 @@ public class NotesMove : MonoBehaviour,IRemoved
     private void Move()
     {
         if (GameManager.Instance.IsPlayed)
-        {
-            transform.position -= transform.forward * Time.deltaTime * GameManager.Instance.NotesSpeed;
-        }
+            transform.position -= transform.forward * GameManager.Instance.NotesSpeed * Time.deltaTime;
     }
 
-    public void Delete(bool value)
-    {
-        gameObject.SetActive(value);
-    }
+    public void Delete(bool value) => gameObject.SetActive(value);
 }

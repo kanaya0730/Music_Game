@@ -1,0 +1,79 @@
+﻿{
+    "name": "Orangestar - Surges (feat. 夏背 & ルワン) _ カロリーメイト web movie",
+    "maxBlock": 8,
+    "BPM": 120,
+    "offset": 0,
+    "notes": [
+        {
+            "LPB": 4,
+            "num": 133,
+            "block": 4,
+            "type": 1,
+            "notes": []
+        },
+        {
+            "LPB": 4,
+            "num": 135,
+            "block": 4,
+            "type": 1,
+            "notes": []
+        },
+        {
+            "LPB": 4,
+            "num": 137,
+            "block": 4,
+            "type": 1,
+            "notes": []
+        },
+        {
+            "LPB": 4,
+            "num": 140,
+            "block": 0,
+            "type": 2,
+            "notes": [
+                {
+                    "LPB": 4,
+                    "num": 143,
+                    "block": 1,
+                    "type": 2,
+                    "notes": []
+                },
+                {
+                    "LPB": 4,
+                    "num": 146,
+                    "block": 0,
+                    "type": 2,
+                    "notes": []
+                },
+                {
+                    "LPB": 4,
+                    "num": 149,
+                    "block": 3,
+                    "type": 2,
+                    "notes": []
+                }
+            ]
+        },
+        {
+            "LPB": 4,
+            "num": 142,
+            "block": 4,
+            "type": 1,
+            "notes": []
+        },
+        {
+            "LPB": 4,
+            "num": 144,
+            "block": 4,
+            "type": 1,
+            "notes": []
+        },
+        {
+            "LPB": 4,
+            "num": 146,
+            "block": 4,
+            "type": 1,
+            "notes": []
+        }
+    ]
+}

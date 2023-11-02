@@ -20,7 +20,8 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     public int Great => _great;
     public int Bad => _bad;
     public int Miss => _miss;
-    
+
+    [SerializeField]
     private int _songID;
     
     [SerializeField]
@@ -52,7 +53,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
 
     private void OnEnable()
     {
-        _songID = PlayerPrefs.GetInt("SONG_ID");
+        //_songID = PlayerPrefs.GetInt("SONG_ID");
     }
 
     private void Start()
